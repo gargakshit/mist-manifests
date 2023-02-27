@@ -1,0 +1,23 @@
+memcached:
+  enabled: false
+
+postgresql:
+  enabled: false
+
+gitea:
+  admin:
+    existingSecret: gitea-admin
+  config:
+    APP_NAME: "Mistea: Gitea with a mist of tea"
+    server:
+      ROOT_URL: "https://git.mist.potatokitty.me"
+    cache:
+      ENABLED: true
+      ADAPTER: memory
+      INTERVAL: 60
+      HOST: 127.0.0.1:9090
+    database:
+      DB_TYPE: sqlite3
+      SQLITE_JOURNAL_MODE: WAL
+    service:
+      DISABLE_REGISTRATION: true

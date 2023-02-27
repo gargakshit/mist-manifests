@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitea-admin
+type: Opaque
+stringData:
+  username: "op://Secrets/Gitea Admin/username"
+  password: "op://Secrets/Gitea Admin/password"
