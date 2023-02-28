@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kabootar
+  labels:
+    app: kabootar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kabootar
+  template:
+    metadata:
+      labels:
+        app: kabootar
+    spec:
+      containers:
+        - name: kabootar
+          image: ghcr.io/gargakshit/kabootar:latest
+          ports:
+            - containerPort: op://Secrets/kabootar.toml/port
+            - containerPort: op://Secrets/kabootar.toml/turn_port
+          volumeMounts:
+            - name: secret
+              mountPath: /app/kabootar.toml
+              subPath: kabootar.toml
+              readOnly: true
+      volumes:
+        - name: secret
+          secret:
+            secretName: kabootar-toml

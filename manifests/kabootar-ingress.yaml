@@ -1,0 +1,40 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kabootar
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: le
+spec:
+  rules:
+    - host: kabootar.mist.potatokitty.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kabootar
+                port:
+                  number: op://Secrets/kabootar.toml/port
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kabootar-redirect
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: default-https-redirect-scheme@kubernetescrd
+spec:
+  rules:
+    - host: kabootar.mist.potatokitty.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kabootar
+                port:
+                  number: op://Secrets/kabootar.toml/port

@@ -16,17 +16,31 @@ function apply_config_manifests() {
 function install_gitea() {
   echo "Installing gitea"
   helm install --values charts/gitea/values.yaml gitea gitea-charts/gitea
+
+  kubectl apply -f manifests/gitea-ingress.yaml
+}
+
+function install_kabootar() {
+  echo "Installing kabootar"
+
+  echo "Rendering secret/kabootar-toml from 1password"
+  op inject -i manifests/kabootar-toml.yaml | kubectl apply -f -
+
+  echo "Rendering deployment/kabootar from 1password"
+  op inject -i manifests/kabootar.yaml | kubectl apply -f -
+
+  echo "Rendering service/kabootar from 1password"
+  op inject -i manifests/kabootar-service.yaml | kubectl apply -f -
+
+  echo "Rendering ingress/kabootar from 1password"
+  op inject -i manifests/kabootar-ingress.yaml | kubectl apply -f -
 }
 
 function install() {
   install_gitea
-}
-
-function apply_ingress() {
-  kubectl apply -f manifests/gitea-ingress.yaml
+  install_kabootar
 }
 
 add_charts
 apply_config_manifests
 install
-apply_ingress
