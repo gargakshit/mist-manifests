@@ -18,6 +18,14 @@ spec:
       containers:
         - name: kabootar
           image: ghcr.io/gargakshit/kabootar:latest
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: op://Secrets/kabootar.toml/port
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: op://Secrets/kabootar.toml/port
           ports:
             - containerPort: op://Secrets/kabootar.toml/port
             - containerPort: op://Secrets/kabootar.toml/turn_port

@@ -11,6 +11,11 @@ gitea:
     APP_NAME: "Mistea: Gitea with a mist of tea"
     server:
       ROOT_URL: "https://git.mist.potatokitty.me"
+      DISABLE_SSH: false
+      DOMAIN: "git.mist.potatokitty.me"
+      START_SSH_SERVER: false
+      SSH_PORT: 32022
+      SSH_LISTEN_PORT: 22
     cache:
       ENABLED: true
       ADAPTER: memory
@@ -21,3 +26,9 @@ gitea:
       SQLITE_JOURNAL_MODE: WAL
     service:
       DISABLE_REGISTRATION: true
+
+service:
+  ssh:
+    type: NodePort
+    nodePort: 32022
+    clusterIP:

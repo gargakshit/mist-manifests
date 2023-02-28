@@ -15,7 +15,7 @@ function apply_config_manifests() {
 
 function install_gitea() {
   echo "Installing gitea"
-  helm install --values charts/gitea/values.yaml gitea gitea-charts/gitea
+  helm upgrade -i --values charts/gitea/values.yaml gitea gitea-charts/gitea
 
   kubectl apply -f manifests/gitea-ingress.yaml
 }
